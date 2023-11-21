@@ -100,7 +100,7 @@ unsigned Cell::tryMoveOccupant() {
 // return 1 if kill occupant, 0 else
 unsigned Cell::takeCell(Cell& toTake) {
   int status = 0;
-  if (this != &toTake) {
+  if (this->pos != toTake.pos) {
     if (toTake.occupied())
       ++status;
     toTake.occupant = std::move(occupant);

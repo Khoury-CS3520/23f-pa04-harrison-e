@@ -3,9 +3,11 @@
 #include "Grid.h"
 
 // maximum amount of time the simulation can run for
-const Time MAX_RUNTIME = 120; // todo test value
+const Time MAX_RUNTIME = 300;
 // time in seconds between each iteration of run loop
 const unsigned TICK_SPEED = 1;
+// do we clear the screen after each tick?
+const bool CLEAR_SCREEN = true;
 
 class Simulation {
 protected:
@@ -14,7 +16,6 @@ protected:
   Grid grid;
 
 public:
-  Simulation(string filename);    // todo
   Simulation(unsigned size, unsigned ants, unsigned doods);
   Simulation(unsigned size, unsigned q, unsigned m, unsigned w, unsigned d);
 

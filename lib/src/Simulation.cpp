@@ -46,49 +46,56 @@ Simulation::Simulation(unsigned int size, unsigned q, unsigned m, unsigned w, un
   unsigned matesSpawned {};
   unsigned workersSpawned {};
   unsigned doodlesSpawned {};
+  unsigned crittersSpawned {};
+  unsigned available {size * size};
 
   std::random_device rd;
   std::mt19937 rng(rd());
   std::uniform_int_distribution<std::mt19937::result_type> distInhabitable(1,size-2);
 
-  while (queensSpawned < q) {
+  while (queensSpawned < q && crittersSpawned < available) {
     coord_t rPos {int (distInhabitable(rng)),
                   int (distInhabitable(rng))};
     grid.at(rPos)->spawnQueenAnt();
     queensSpawned++;
+    crittersSpawned++;
   }
 
-  while (matesSpawned < m) {
+  while (matesSpawned < m && crittersSpawned < available) {
     coord_t rPos {int (distInhabitable(rng)),
                   int (distInhabitable(rng))};
     if (!grid.at(rPos)->occupied()) {
       grid.at(rPos)->spawnMatingAnt();
       matesSpawned++;
+      crittersSpawned++;
     }
   }
 
-  while (workersSpawned < w) {
+  while (workersSpawned < w && crittersSpawned < available) {
     coord_t rPos {int (distInhabitable(rng)),
                   int (distInhabitable(rng))};
     if (!grid.at(rPos)->occupied()) {
       grid.at(rPos)->spawnWorkerAnt();
       workersSpawned++;
+      crittersSpawned++;
     }
   }
 
-  while (doodlesSpawned < doodleCount) {
+  while (doodlesSpawned < d && crittersSpawned < available) {
     coord_t rPos {int (distInhabitable(rng)),
                   int (distInhabitable(rng))};
     if (!grid.at(rPos)->occupied()) {
       grid.at(rPos)->spawnDoodle();
       doodlesSpawned++;
+      crittersSpawned++;
     }
   }
 }
 
 
 void Simulation::display() {
-  system("clear");
+  if (CLEAR_SCREEN)
+    system("clear");
   std::cout << grid.print();
   std::cout << "ants: " << antCount << '\n';
   std::cout << "doods: " << doodleCount << '\n';
@@ -105,17 +112,19 @@ void Simulation::run() {
     antCount -= grid.moveDoodlebugs();
     grid.moveAnts();
 
+    doodleCount += grid.breedDoodlebugs();
     doodleCount -= grid.killDoodlebugs();
+    antCount += grid.breedAnts();
     antCount -= grid.killAnts();
 
-    doodleCount += grid.breedDoodlebugs();
-    antCount += grid.breedAnts();
 
     display();
     sleep(TICK_SPEED);
     T++;
   }
-  system("clear");
+
+  if (CLEAR_SCREEN)
+    system("clear");
   if (!doodleCount) {
     std::cout << "\033[1;33mAnts Win!\033[0m\n";
   } else if (!antCount) {

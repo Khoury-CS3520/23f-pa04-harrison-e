@@ -39,8 +39,6 @@ public:
   // identifiers, false by default
   virtual bool isDoodle()   { return false; }
   virtual bool isAnt()      { return false; }
-  virtual bool isQueen()    { return false; }
-  virtual bool isWorker()   { return false; }
   virtual bool isMating()   { return false; }
   virtual bool shouldDie()  { return curHP == 0; }
   virtual bool canBreed()   { return false; }

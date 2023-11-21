@@ -26,7 +26,6 @@ void Queen::mate() {
 }
 
 unsigned Queen::breed() {
-  // TODO spawn new dudes
   vector<shared_ptr<Cell>> spawnable;
   for (const auto &cell : home->neighbors16) {
     if (!cell->occupied() && cell->cellType() == HABITABLE)
@@ -40,7 +39,9 @@ unsigned Queen::breed() {
 
   while (spawned < toSpawn) {
     std::uniform_int_distribution<std::mt19937::result_type> distEgg(0,spawnable.size() - 1);
-    shared_ptr<Cell> rand = spawnable.at(distEgg(rng));
+    auto n = (size_t) distEgg(rng);
+    shared_ptr<Cell> rand = spawnable.at(n);
+    spawnable.erase(spawnable.begin() + n);
     rand->spawnAnt();
     ++spawned;
   }

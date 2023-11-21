@@ -11,6 +11,10 @@ inline bool operator==(coordinate a, coordinate b) {
   return a.x == b.x && a.y == b.y;
 }
 
+inline bool operator!=(coordinate a, coordinate b) {
+  return a.x != b.x || a.y != b.y;
+}
+
 inline coordinate operator-(coordinate a, coordinate b) {
   return {a.x - b.x, a.y - b.y};
 }

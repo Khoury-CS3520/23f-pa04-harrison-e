@@ -23,8 +23,6 @@ public:
 
   // identifiers
   bool isAnt()     override { return true; }
-  bool isQueen()   override { return type == QUEEN; }
-  bool isWorker()  override { return type == WORKER; }
   bool isMating()  override { return type == MATING; }
 };
 

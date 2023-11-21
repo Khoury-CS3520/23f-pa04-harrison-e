@@ -41,13 +41,11 @@ public:
 
   cell_t cellType() const { return type; }
   bool occupied()   const { return type == HABITABLE && occupant; }
-  bool hasDoodle()  const { return occupant && occupant->isDoodle(); }
-  bool hasAnt()     const { return occupant && occupant->isAnt(); }
-  bool hasQueen()   const { return occupant && occupant->isQueen(); }
-  bool hasMating()  const { return occupant && occupant->isMating(); }
-  bool hasWorker()  const { return occupant && occupant->isWorker(); }
-  bool shouldDie()  const { return occupant && occupant->shouldDie(); }
-  bool canBreed()   const { return occupant && occupant->canBreed(); }
+  bool hasDoodle()  const { return occupied() && occupant->isDoodle(); }
+  bool hasAnt()     const { return occupied() && occupant->isAnt(); }
+  bool hasMating()  const { return occupied() && occupant->isMating(); }
+  bool shouldDie()  const { return occupied() && occupant->shouldDie(); }
+  bool canBreed()   const { return occupied() && occupant->canBreed(); }
 
   void spawnQueenAnt();
   void spawnMatingAnt();
